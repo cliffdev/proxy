@@ -34,12 +34,18 @@ public final class HexDumpProxy {
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
             ServerBootstrap b = new ServerBootstrap();
-            b.group(bossGroup, workerGroup)
+             b.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
                     .handler(new LoggingHandler(LogLevel.INFO))
                     .childHandler(new HexDumpProxyInitializer(remoteHost, remotePort))
-                    .childOption(ChannelOption.AUTO_READ, false)
-                    .bind(localIp,localPort).sync().channel().closeFuture().sync();
+                    .childOption(ChannelOption.AUTO_READ, false);
+
+             if("*".equals(localIp)) {
+                    b.bind(localPort).sync().channel().closeFuture().sync();;
+             }
+             else{
+                b.bind(localIp, localPort).sync().channel().closeFuture().sync();;
+             }
         }
         finally {
             bossGroup.shutdownGracefully();

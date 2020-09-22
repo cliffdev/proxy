@@ -8,6 +8,6 @@
 需要要把VM的端口设置在台式本机对外，这样我台式的端口对外在局域网都可以访问到。
 
 比如mysql  比如ssh登录
-proxy.list[0]=localhost:3306;10.0.0.191:3306
+proxy.list[0]=localhost:3306;10.0.0.1**91:3306
 proxy.list[1]=localhost:19122;10.0.0.191:22
 

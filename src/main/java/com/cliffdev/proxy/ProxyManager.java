@@ -20,13 +20,19 @@ public class ProxyManager {
         List<ProxyConfig.Info> proxyList = proxyConfig.getListExt();
         if(proxyList != null ){
             for(ProxyConfig.Info item :proxyList) {
-                log.info("正在启动:"+item);
-                try {
-                    hexDumpProxy.start(item.localIp(), item.localPort(), item.remoteIp(), item.remotePort());
-                    log.info("启动:"+item+" oK");
-                }catch (Exception ex){
-                    log.info(item+" 启动异常",ex);
-                }
+                   log.info("正在启动:"+item);
+                    Thread thread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                            hexDumpProxy.start(item.localIp(), item.localPort(), item.remoteIp(), item.remotePort());
+                            log.info("启动:"+item+" oK");
+                            }catch (Exception ex){
+                                log.info(item+" 启动异常",ex);
+                            }
+                        }
+                    });
+                    thread.start();
             }
         }
     }
